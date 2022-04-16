@@ -8,13 +8,13 @@
 def format_ingredients(items):
     new_items = ""
     items_len = len(items)
-    if len(items) == 0:
+    if not items:
         return ''
-    elif len(items) == 1:
-        return " ".join(items)
+    if len(items) == 1:
+        return items[0]
     else:
         new_list = items[:-2]
         for i in new_list:
             new_items += i
             new_items += ", "
-        return new_items+items[-2]+" и "+items[-1]
+    return new_items+items[-2]+" и "+items[-1]
