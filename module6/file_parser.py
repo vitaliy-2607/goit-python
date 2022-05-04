@@ -1,66 +1,45 @@
 import sys
 from pathlib import Path
 
-JPEG_IMAGES = []
-JPG_IMAGES = []
-PNG_IMAGES = []
-SVG_IMAGES = []
+IMAGES = []
 
-AVI_VIDEO = []
-MP4_VIDEO = []
-MOV_VIDEO = []
-MKV_VIDEO = []
+VIDEO = []
 
-DOC = []
-DOCX = []
-TXT = []
-PDF = []
-XLSX = []
-PPTX = []
+DOCUMENTS = []
 
-MP3_AUDIO = []
-OGG_AUDIO = []
-WAV_AUDIO = []
-AMR_AUDIO = []
+AUDIO = []
 
-ZIP_ARCHIVES = []
-GZ_ARCHIVES = []
-TAR_ARCHIVES = []
+ARCHIVES = []
 
 OTHER = []
 
 REGISTER_EXTENSIONS = {
-    'JPEG': JPEG_IMAGES,
-    'PNG': PNG_IMAGES,
-    'JPG': JPG_IMAGES,
-    'SVG': SVG_IMAGES,
-    'AVI': AVI_VIDEO,
-    'MP4': MP4_VIDEO,
-    'MOV': MOV_VIDEO,
-    'MKV': MKV_VIDEO,
-    'DOC': DOC,
-    'DOCX': DOCX,
-    'TXT': TXT,
-    'PDF': PDF,
-    'XLSX': XLSX,
-    'PPTX': PPTX,
-    'MP3': MP3_AUDIO,
-    'OGG': OGG_AUDIO,
-    'WAV': WAV_AUDIO,
-    'AMR': AMR_AUDIO,
-    'ZIP': ZIP_ARCHIVES,
-    'GZ': GZ_ARCHIVES,
-    'TAR': TAR_ARCHIVES
+    'JPEG': IMAGES,
+    'PNG': IMAGES,
+    'JPG': IMAGES,
+    'SVG': IMAGES,
+    'AVI': VIDEO,
+    'MP4': VIDEO,
+    'MOV': VIDEO,
+    'MKV': VIDEO,
+    'DOC': DOCUMENTS,
+    'DOCX': DOCUMENTS,
+    'TXT': DOCUMENTS,
+    'PDF': DOCUMENTS,
+    'XLSX': DOCUMENTS,
+    'PPTX': DOCUMENTS,
+    'MP3': AUDIO,
+    'OGG': AUDIO,
+    'WAV': AUDIO,
+    'AMR': AUDIO,
+    'ZIP': ARCHIVES,
+    'GZ': ARCHIVES,
+    'TAR': ARCHIVES
 }
 
 FOLDERS = []
 EXTENSIONS = set()
 UNKNOWN = set()
-
-
-def get_extension(filename: str) -> str:
-    # превращаем расширение файла в название папки .jpg -> JPG
-    return Path(filename).suffix[1:].upper()
 
 
 def scan(folder: Path) -> None:
@@ -76,7 +55,7 @@ def scan(folder: Path) -> None:
             continue
 
         #  Пошла работа с файлом
-        ext = get_extension(item.name)  # взять расширение
+        ext = Path(item.name).suffix[1:].upper()  # взять расширение
         fullname = folder / item.name  # взять полный путь к файлу
         if not ext:  # если у файла нет расширения добавить к неизвестным
             OTHER.append(fullname)
@@ -95,5 +74,4 @@ def scan(folder: Path) -> None:
 if __name__ == '__main__':
     folder_for_scan = sys.argv[1]
     print(f'Start in folder {folder_for_scan}')
-
     scan(Path(folder_for_scan))

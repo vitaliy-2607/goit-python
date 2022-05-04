@@ -49,54 +49,22 @@ def handle_folder(folder: Path):
 def main(folder: Path):
     parser.scan(folder)
 
-    for file in parser.JPEG_IMAGES:
-        handle_media(file, folder / 'images')
-    for file in parser.JPG_IMAGES:
-        handle_media(file, folder / 'images')
-    for file in parser.PNG_IMAGES:
-        handle_media(file, folder / 'images')
-    for file in parser.SVG_IMAGES:
+    for file in parser.IMAGES:
         handle_media(file, folder / 'images')
 
-    for file in parser.AVI_VIDEO:
-        handle_media(file, folder / 'video')
-    for file in parser.MP4_VIDEO:
-        handle_media(file, folder / 'video')
-    for file in parser.MOV_VIDEO:
-        handle_media(file, folder / 'video')
-    for file in parser.MKV_VIDEO:
+    for file in parser.VIDEO:
         handle_media(file, folder / 'video')
 
-    for file in parser.DOC:
-        handle_document(file, folder / 'documents')
-    for file in parser.DOCX:
-        handle_document(file, folder / 'documents')
-    for file in parser.TXT:
-        handle_document(file, folder / 'documents')
-    for file in parser.PDF:
-        handle_document(file, folder / 'documents')
-    for file in parser.XLSX:
-        handle_document(file, folder / 'documents')
-    for file in parser.PPTX:
+    for file in parser.DOCUMENTS:
         handle_document(file, folder / 'documents')
 
-    for file in parser.MP3_AUDIO:
-        handle_media(file, folder / 'audio')
-    for file in parser.OGG_AUDIO:
-        handle_media(file, folder / 'audio')
-    for file in parser.WAV_AUDIO:
-        handle_media(file, folder / 'audio')
-    for file in parser.AMR_AUDIO:
+    for file in parser.AUDIO:
         handle_media(file, folder / 'audio')
 
     for file in parser.OTHER:
         handle_other(file, folder / 'OTHER')
 
-    for file in parser.ZIP_ARCHIVES:
-        handle_archive(file, folder / 'archives')
-    for file in parser.GZ_ARCHIVES:
-        handle_archive(file, folder / 'archives')
-    for file in parser.TAR_ARCHIVES:
+    for file in parser.ARCHIVES:
         handle_archive(file, folder / 'archives')
 
     # Выполняем реверс списка для того, чтобы все папки удалить.
