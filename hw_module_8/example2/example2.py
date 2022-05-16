@@ -64,5 +64,4 @@ def get_birthdays_per_week():
             print(k+': ' + v[:-2])
 
 
-if __name__ == '__main__':
-    get_birthdays_per_week()
+get_birthdays_per_week()
