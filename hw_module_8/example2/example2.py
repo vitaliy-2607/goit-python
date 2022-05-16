@@ -37,8 +37,8 @@ def get_birthdays_per_week():
         birth = datetime.strptime(b_day[0], "%d.%m.%Y").date()
         new_birth = datetime(year=today.year, month=birth.month, day=birth.day)
         if today.month == new_birth.month:
-            if new_birth.day in range(today.day, today.day+7):
-                if new_birth.weekday() == 0:
+            if new_birth.day in range(today.day+1, today.day+8):
+                if new_birth.weekday() in (0, 5, 6):
                     week_bday['Monday'] += name[0]
                     week_bday['Monday'] += ', '
 
@@ -58,9 +58,6 @@ def get_birthdays_per_week():
                     week_bday['Friday'] += name[0]
                     week_bday['Friday'] += ', '
 
-                if new_birth.weekday() in (5, 6):
-                    week_bday['Next Monday'] += name[0]
-                    week_bday['Next Monday'] += ', '
     file.close()
     for k, v in week_bday.items():
         if len(v) > 0:
