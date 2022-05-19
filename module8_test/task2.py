@@ -5,9 +5,4 @@ from datetime import date
 
 
 def get_days_in_month(month, year):
-    count_days = date.max()
-
-
-
-
-print(get_days_in_month(2, 2022))
+    pass
