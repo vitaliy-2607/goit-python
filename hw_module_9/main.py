@@ -9,6 +9,8 @@ def input_error(func):
             return func(*args, **kwargs)
         except KeyError:
             return 'This name is not found in contacts, try another name!'
+        except IndexError:
+            return 'Contact list is empty! Add at least one contact!'
     return inner
 
 
@@ -16,30 +18,35 @@ def hello():
     return 'How can I help you?'
 
 
+def help():
+    return 'hello, отвечает в консоль "How can I help you?"\n"add ...". По этой команде бот сохраняет в памяти(в словаре например) новый контакт. Вместо ... пользователь вводит имя и номер телефона, обязательно через пробел.\n"change ..." По этой команде бот сохраняет в памяти новый номер телефона для существующего контакта. Вместо ... пользователь вводит имя и номер телефона, обязательно через пробел.\n"phone ...." По этой команде бот выводит в консоль номер телефона для указанного контакта. Вместо ... пользователь вводит имя контакта, чей номер нужно показать.\n"show all". По этой команде бот выводит все сохраненные контакты с номерами телефонов в консоль.\n"good bye", "close", "exit" по любой из этих команд бот завершает свою роботу после того, как выведет в консоль "Good bye!".'
+
+
 @input_error
-def add(name, phone_user):
-    user_dictionary.update({name.title(): phone_user})
+def add(*args):
+    user_dictionary.update({args[0].title(): args[1]})
     return 'New contact saved successfully!'
 
 
 @input_error
-def change(name, phone_user):
+def change(*args):
     for k, v in user_dictionary.items():
-        if name.title() == k:
-            user_dictionary[k] = phone_user
+        if args[0].title() == k:
+            user_dictionary[k] = args[1]
             return 'Number successfully changed!'
         else:
-            return 'Contact with this name is not in the contact list!'
+            raise KeyError
 
 
 @input_error
-def phone(name):
-    return user_dictionary[name.title()]
+def phone(*args):
+    return user_dictionary[args[0].title()]
 
 
-def show_all(user_dictionary):
+@input_error
+def show_all(*args):
     if len(user_dictionary) == 0:
-        return 'Contact list is empty! Add at least one contact!'
+        raise IndexError
     else:
         return "\n".join([f"{k}: {v} " for k, v in user_dictionary.items()])
 
@@ -48,34 +55,26 @@ def exit():
     return "Good bye!"
 
 
-def parser(user_input, command):
-    name = ''
-    phone_user = ''
-    if command == 'hello':
-        print(hello())
-    elif command == 'show':
-        print(show_all(user_dictionary))
-    elif command == 'phone':
-        name = ''.join(user_input[1])
-        print(phone(name))
-    elif command == 'change':
-        name = ''.join(user_input[1])
-        phone_user = ''.join(user_input[2])
-        print(change(name, phone_user))
-    elif command == 'add':
-        name = ''.join(user_input[1])
-        phone_user = ''.join(user_input[2])
-        print(add(name, phone_user))
+COMMANDS = {exit: ["exit", ".", "good bye", 'close', 'бувай'], add: [
+    "add", "добавь", "додай"], show_all: ["show all", "show"], change: ['change', 'змінити', 'поменять'],
+    hello: ['hello', 'привіт', 'здравствуйте'], phone: ['phone', 'телефон', 'телефон'],
+    help: ['help', 'допомога', 'помощь']}
+
+
+def parse_command(user_input: str):
+    for k, v in COMMANDS.items():
+        for i in v:
+            if user_input.lower().startswith(i.lower()):
+                return k, user_input[len(i):].strip().split()
 
 
 def main():
     while True:
-        user_input = input('Enter command: ').lower().split()
-        command = ''.join(user_input[0])
-        if command in ['exit', 'close', 'good bye']:
-            print(exit())
+        user_input = input('Enter command: ')
+        result, data = parse_command(user_input)
+        print(result(*data))
+        if result is exit:
             break
-        parser_command = parser(user_input, command)
 
 
 if __name__ == "__main__":
