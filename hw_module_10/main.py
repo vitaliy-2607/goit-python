@@ -35,8 +35,8 @@ class Record:
 
 
 class AddressBook(UserDict):
-    def add_record(self, record: Record):
-        self.data[record.name.value] = record
+    def add_record(self, rec: Record):
+        self.data[rec.name.value] = rec
 
 
 def input_error(func):
@@ -64,27 +64,29 @@ def help(*args):
 def add_new_contact(address_book, *args):
     name = Name(args[0])
     phone = Phone(args[1])
+    rec = Record(name, [phone.value])
     if name.value in address_book:
         address_book[name.value].add(phone.value)
         return f'Another phone has been added to the contact: {name.value}'
     else:
-        address_book[name.value] = Record(name, [phone.value])
+        address_book[name.value] = rec
     return 'New contact saved successfully!'
 
 
 @input_error
 def change(address_book, *args):
-    name, old_phone, new_phone = args[0], args[1], args[2]
-    address_book[name].edit(old_phone, new_phone)
-    return f'The contact {name} successfully replaced the old phone {old_phone} with the new phone {new_phone}'
+    old_phone, new_phone = args[1], args[2]
+    rec = address_book[args[0]]
+    rec.edit(old_phone, new_phone)
+    return f'The contact {args[0]} successfully replaced the old phone {old_phone} with the new phone {new_phone}'
 
 
 @input_error
 def del_phone(address_book, *args):
-    name = args[0]
     phone = args[1]
-    address_book[name].delete(phone)
-    return f'The contact {name} successfully delete the phone {phone}!'
+    rec = address_book[args[0]]
+    rec.delete(phone)
+    return f'The contact {args[0]} successfully delete the phone {phone}!'
 
 
 @input_error
