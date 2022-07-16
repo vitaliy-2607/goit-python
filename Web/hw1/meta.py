@@ -1,14 +1,11 @@
 class Meta(type):
-    children_number = 0
+    class_number = 0
 
     def __new__(mcs, *args, **kwargs):
         instance = super().__new__(mcs, *args, **kwargs)
-        instance.children_number = mcs.children_number
-        mcs.children_number = mcs.children_number + 1
+        instance.class_number = mcs.class_number
+        mcs.class_number = mcs.class_number + 1
         return instance
-
-
-Meta.children_number = 0
 
 
 class Cls1(metaclass=Meta):
