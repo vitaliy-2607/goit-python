@@ -33,4 +33,4 @@ if __name__ == '__main__':
     fourth.join()
 
     end = time()
-    print(star-end)
+    print(end-star)
