@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "hwork9"
+version = "0.1.0"
+description = ""
+authors = ["Vitaliy <vitaliytraschenko@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+alembic = "^1.8.1"
+SQLAlchemy = "^1.4.42"
+psycopg2 = "^2.9.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
